@@ -1,0 +1,57 @@
+/*******************************************************
+*                                                      *
+*                                                      *
+*                 CDLP documentation                   *
+*                                                      *
+*                                                      *
+/*******************************************************
+
+
+
+explanation of field:
+-----------|--------------------------------------------------
+Field      |Meaning                                     
+-----------|--------------------------------------------------
+type       |type of message
+           |0 == user leaves the chat room       
+           |1 == user enters the chat room
+           |2 == this message is a chat message
+           |3 == this message is a build room message
+           |4 == this message is a status change message
+-----------|--------------------------------------------------
+chat       |chat message
+-----------|--------------------------------------------------
+username   |name of user
+-----------|--------------------------------------------------
+level      |level of user
+           |if type == 4,then level represents status of
+           |anchor,1 == is streaming,0 == not streaming
+-----------|--------------------------------------------------
+anchorname |name of anchor,identifies different room
+
+
+
+definition:
+--------------------------------------------------------------
+syntax = "proto3";
+
+package cdlp;
+
+message CdlpMessage {
+    uint32 type = 1;
+    string chat = 2;
+    string userName = 3;
+    uint32 level = 4;
+    string anchorName = 5;
+}
+--------------------------------------------------------------
+
+
+
+tutorials:
+--------------------------------------------------------------
+python:
+https://developers.google.com/protocol-buffers/docs/pythontutorial
+--------------------------------------------------------------
+java:
+check https://developers.google.com/protocol-buffers/docs/javatutorial
