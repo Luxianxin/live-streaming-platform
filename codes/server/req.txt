@@ -1,0 +1,5 @@
+Django==2.0.7
+django-rank-query==0.1.0
+protobuf==3.0.0
+requests==2.18.4
+requests-unixsocket==0.1.5

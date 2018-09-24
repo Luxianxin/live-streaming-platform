@@ -1,0 +1,88 @@
+apply plugin: 'com.android.library'
+apply plugin: 'com.google.protobuf'
+android {
+    compileSdkVersion 27
+    buildToolsVersion '27.0.3'
+
+    defaultConfig {
+        minSdkVersion 14
+        targetSdkVersion 22
+        versionCode 1
+        versionName "1.0.1"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    sourceSets {
+        main {
+            //让AS识别libs下的.so第三方包
+            jniLibs.srcDirs = ['libs']
+            java {
+                srcDir 'src/main/java'
+            }
+            proto {
+                srcDir 'src/main/proto' //指定.proto文件路径
+            }
+        }
+    }
+    lintOptions {
+        abortOnError false
+        checkReleaseBuilds false
+        // 防止在发布的时候出现因MissingTranslation导致Build Failed!
+        disable 'MissingTranslation'
+    }
+}
+protobuf {
+    protoc {
+        artifact = 'com.google.protobuf:protoc:3.0.0' // 也可以配置本地编译器路径
+    }
+    plugins {
+        javalite {
+            // The codegen for lite comes as a separate artifact
+            artifact = 'com.google.protobuf:protoc-gen-javalite:3.0.0'
+        }
+    }
+    generateProtoTasks {
+        all().each { task ->
+            task.builtins {
+                // In most cases you don't need the full Java output
+                // if you use the lite output.
+                remove java
+            }
+            task.plugins {
+                javalite {}
+            }
+        }
+    }
+
+//    generateProtoTasks {
+//        all().each { task ->
+//            task.builtins {
+//                remove java
+//            }
+//            task.builtins {
+//                java {}// 生产java源码
+//            }
+//        }
+//    }
+
+}
+
+
+
+
+
+dependencies {
+    implementation 'com.android.support.constraint:constraint-layout:1.1.2'
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    testCompile 'junit:junit:4.12'
+    implementation 'com.android.support:appcompat-v7:27.1.1'
+    implementation 'tv.danmaku.ijk.media:ijkplayer-java:0.5.1'
+    implementation 'tv.danmaku.ijk.media:ijkplayer-armv7a:0.5.1'
+    implementation 'tv.danmaku.ijk.media:ijkplayer-exo:0.5.1'
+    implementation 'com.android.support:support-v4:27.1.1'
+    api 'com.google.protobuf:protobuf-lite:3.0.0'
+}

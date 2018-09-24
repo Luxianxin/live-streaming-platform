@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package cdlp;
+
+message CdlpMessage {
+    uint32 type = 1;
+    string chat = 2;
+    string userName = 3;
+    uint32 level = 4;
+    string anchorName = 5;
+}
